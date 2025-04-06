@@ -64,7 +64,7 @@ resource "aws_security_group" "allow_ssh" {
 }
 
 resource "aws_instance" "auto_hostname" {
-  ami                    = "ami-01f7527549c020493" # Ubuntu 22.04 LTS for Sydney
+  ami                    = "ami-01b7b4de5c31400a0" # Ubuntu 22.04 LTS for Sydney
   instance_type          = "t2.micro"
   key_name               = "NTsydney"  # Replace with your actual key name
   subnet_id              = aws_subnet.public_subnet.id
