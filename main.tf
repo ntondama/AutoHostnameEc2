@@ -48,6 +48,13 @@ resource "aws_security_group" "allow_ssh" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -67,6 +74,10 @@ resource "aws_instance" "auto_hostname" {
               #!/bin/bash
               hostnamectl set-hostname ${var.server_name}
               echo "127.0.0.1   ${var.server_name}" >> /etc/hosts
+              yum install -y httpd
+              echo "Hi I am from ${var.server_name}" > /var/www/html/index.html
+              systemctl start httpd
+              systemctl enable httpd
               EOF
 
   tags = {
