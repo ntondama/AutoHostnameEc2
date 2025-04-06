@@ -64,7 +64,7 @@ resource "aws_security_group" "allow_ssh" {
 }
 
 resource "aws_instance" "auto_hostname" {
-  ami                    = "ami-0df4b2961410d4cff" # Amazon Linux 2 for Sydney
+  ami                    = "ami-0df4b2961410d4cff" # Amazon Linux 2 for Sydney (if using Ubuntu, replace with proper Ubuntu AMI)
   instance_type          = "t2.micro"
   key_name               = "NTsydney"  # Replace with your actual key name
   subnet_id              = aws_subnet.public_subnet.id
@@ -74,10 +74,11 @@ resource "aws_instance" "auto_hostname" {
               #!/bin/bash
               hostnamectl set-hostname ${var.server_name}
               echo "127.0.0.1   ${var.server_name}" >> /etc/hosts
-              yum install -y httpd
+              apt update -y
+              apt install -y apache2
               echo "Hi I am from ${var.server_name}" > /var/www/html/index.html
-              systemctl start httpd
-              systemctl enable httpd
+              systemctl start apache2
+              systemctl enable apache2
               EOF
 
   tags = {
